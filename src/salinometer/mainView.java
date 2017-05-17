@@ -5,6 +5,8 @@
  */
 package salinometer;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -23,6 +25,7 @@ public class mainView extends javax.swing.JFrame {
      */
     public mainView() {
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/saltbottle.png"));
     }
 
     /**
@@ -36,34 +39,52 @@ public class mainView extends javax.swing.JFrame {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jDialog1 = new javax.swing.JDialog();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mainJPanel = new javax.swing.JPanel();
+        autosalConnectJButtonWithIcon = new javax.swing.JButton();
+        mainJScrollPane = new javax.swing.JScrollPane();
+        mainJTable = new javax.swing.JTable();
+        autosalConnectJButton = new javax.swing.JButton();
+        mainMenuJToolBar = new javax.swing.JToolBar();
+        jSeparator10 = new javax.swing.JToolBar.Separator();
+        fileNewJButton = new javax.swing.JButton();
+        jSeparator5 = new javax.swing.JToolBar.Separator();
+        fileOpenJButton = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JToolBar.Separator();
+        printPageJButton = new javax.swing.JButton();
+        jSeparator7 = new javax.swing.JToolBar.Separator();
+        runDetailsJButton = new javax.swing.JButton();
+        jSeparator8 = new javax.swing.JToolBar.Separator();
+        calibrateJButton = new javax.swing.JButton();
+        jSeparator9 = new javax.swing.JToolBar.Separator();
+        jLabel1 = new javax.swing.JLabel();
+        functionSwitchStatusJTextField = new javax.swing.JTextField();
+        timeJTextField = new javax.swing.JTextField();
+        dateJTextField = new javax.swing.JTextField();
+        salinometerJMenuBar = new javax.swing.JMenuBar();
+        fileJMenu = new javax.swing.JMenu();
+        NewJMenuItem = new javax.swing.JMenuItem();
+        OpenJMenuItem = new javax.swing.JMenuItem();
+        closeJMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        printJMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        runDetailsJMenuItem = new javax.swing.JMenuItem();
+        calibrateJMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        exitJMenuItem = new javax.swing.JMenuItem();
+        loggingJMenu = new javax.swing.JMenu();
+        communicationsLogJMenuItem = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItemGeneral = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem14 = new javax.swing.JMenuItem();
-        jMenuItem15 = new javax.swing.JMenuItem();
-        jMenuItem16 = new javax.swing.JMenuItem();
+        enterBottleLabelJMenuItem = new javax.swing.JMenuItem();
+        enterCommentsJMenuItem = new javax.swing.JMenuItem();
+        settingsJMenu = new javax.swing.JMenu();
+        generalJMenuItem = new javax.swing.JMenuItem();
+        communicationsJMenuItem = new javax.swing.JMenuItem();
+        columnsJMenuItem = new javax.swing.JMenuItem();
+        helpJMenu = new javax.swing.JMenu();
+        technicalHelpJMenuItem = new javax.swing.JMenuItem();
+        licenseAgreementJMenuItem = new javax.swing.JMenuItem();
+        aboutJMenuItem = new javax.swing.JMenuItem();
 
         jInternalFrame1.setVisible(true);
 
@@ -90,27 +111,116 @@ public class mainView extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Salinometer Data Logger");
+        setTitle("AOML Salinometer Data Logger");
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.setMinimumSize(new java.awt.Dimension(25, 25));
+        mainJPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mainJPanel.setMaximumSize(new java.awt.Dimension(80, 112));
+        mainJPanel.setMinimumSize(new java.awt.Dimension(25, 25));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 36, Short.MAX_VALUE)
+        autosalConnectJButtonWithIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometerConnectionNotConnected.png"))); // NOI18N
+        autosalConnectJButtonWithIcon.setBorder(null);
+        autosalConnectJButtonWithIcon.setBorderPainted(false);
+
+        javax.swing.GroupLayout mainJPanelLayout = new javax.swing.GroupLayout(mainJPanel);
+        mainJPanel.setLayout(mainJPanelLayout);
+        mainJPanelLayout.setHorizontalGroup(
+            mainJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 126, Short.MAX_VALUE)
+            .addGroup(mainJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainJPanelLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(autosalConnectJButtonWithIcon)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
+        mainJPanelLayout.setVerticalGroup(
+            mainJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+            .addGroup(mainJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainJPanelLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(autosalConnectJButtonWithIcon)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        mainJScrollPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mainJScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        mainJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -158,145 +268,249 @@ public class mainView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(160);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(7).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(8).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(9).setPreferredWidth(160);
-            jTable1.getColumnModel().getColumn(10).setPreferredWidth(150);
+        mainJTable.getTableHeader().setReorderingAllowed(false);
+        mainJScrollPane.setViewportView(mainJTable);
+        if (mainJTable.getColumnModel().getColumnCount() > 0) {
+            mainJTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            mainJTable.getColumnModel().getColumn(1).setPreferredWidth(120);
+            mainJTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+            mainJTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+            mainJTable.getColumnModel().getColumn(4).setPreferredWidth(120);
+            mainJTable.getColumnModel().getColumn(5).setPreferredWidth(160);
+            mainJTable.getColumnModel().getColumn(6).setPreferredWidth(120);
+            mainJTable.getColumnModel().getColumn(7).setPreferredWidth(120);
+            mainJTable.getColumnModel().getColumn(8).setPreferredWidth(150);
+            mainJTable.getColumnModel().getColumn(9).setPreferredWidth(160);
+            mainJTable.getColumnModel().getColumn(10).setPreferredWidth(150);
         }
 
-        jMenuBar1.setPreferredSize(new java.awt.Dimension(185, 17));
+        autosalConnectJButton.setText("Connect");
 
-        jMenu2.setText("File");
+        mainMenuJToolBar.setBorder(null);
+        mainMenuJToolBar.setFloatable(false);
+        mainMenuJToolBar.setRollover(true);
+        mainMenuJToolBar.add(jSeparator10);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("New");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        fileNewJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filenew.png"))); // NOI18N
+        fileNewJButton.setToolTipText("New Run");
+        fileNewJButton.setBorder(null);
+        fileNewJButton.setFocusable(false);
+        fileNewJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        fileNewJButton.setMaximumSize(new java.awt.Dimension(32, 32));
+        fileNewJButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        fileNewJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mainMenuJToolBar.add(fileNewJButton);
+        mainMenuJToolBar.add(jSeparator5);
+
+        fileOpenJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fileopen.png"))); // NOI18N
+        fileOpenJButton.setBorder(null);
+        fileOpenJButton.setFocusable(false);
+        fileOpenJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        fileOpenJButton.setMaximumSize(new java.awt.Dimension(32, 32));
+        fileOpenJButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        fileOpenJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mainMenuJToolBar.add(fileOpenJButton);
+        mainMenuJToolBar.add(jSeparator6);
+
+        printPageJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fileprint.png"))); // NOI18N
+        printPageJButton.setBorder(null);
+        printPageJButton.setFocusable(false);
+        printPageJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        printPageJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mainMenuJToolBar.add(printPageJButton);
+        mainMenuJToolBar.add(jSeparator7);
+
+        runDetailsJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/properties.png"))); // NOI18N
+        runDetailsJButton.setBorder(null);
+        runDetailsJButton.setFocusable(false);
+        runDetailsJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        runDetailsJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mainMenuJToolBar.add(runDetailsJButton);
+        mainMenuJToolBar.add(jSeparator8);
+
+        calibrateJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flaskNobg.png"))); // NOI18N
+        calibrateJButton.setBorder(null);
+        calibrateJButton.setFocusable(false);
+        calibrateJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        calibrateJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mainMenuJToolBar.add(calibrateJButton);
+        mainMenuJToolBar.add(jSeparator9);
+
+        jLabel1.setText("Function Switch:");
+
+        functionSwitchStatusJTextField.setEditable(false);
+        functionSwitchStatusJTextField.setText("Not Connected");
+        functionSwitchStatusJTextField.setBorder(null);
+
+        timeJTextField.setEditable(false);
+        timeJTextField.setText("13:55:00 AM");
+        timeJTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timeJTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                timeJTextFieldActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Open...");
-        jMenu2.add(jMenuItem2);
+        dateJTextField.setEditable(false);
+        dateJTextField.setText("05/17/2017");
+        dateJTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jMenuItem3.setText("Close");
-        jMenu2.add(jMenuItem3);
-        jMenu2.add(jSeparator1);
+        salinometerJMenuBar.setPreferredSize(new java.awt.Dimension(185, 17));
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText("Print");
-        jMenu2.add(jMenuItem4);
-        jMenu2.add(jSeparator2);
+        fileJMenu.setText("File");
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setText("Run Details");
-        jMenu2.add(jMenuItem5);
-
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem6.setText("Calibrate");
-        jMenu2.add(jMenuItem6);
-        jMenu2.add(jSeparator3);
-
-        jMenuItem7.setText("Exit");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        NewJMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        NewJMenuItem.setText("New");
+        NewJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                NewJMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem7);
+        fileJMenu.add(NewJMenuItem);
 
-        jMenuBar1.add(jMenu2);
+        OpenJMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        OpenJMenuItem.setText("Open...");
+        fileJMenu.add(OpenJMenuItem);
 
-        jMenu1.setText("Logging");
+        closeJMenuItem.setText("Close");
+        fileJMenu.add(closeJMenuItem);
+        fileJMenu.add(jSeparator1);
 
-        jMenuItem8.setText("Communications Log");
-        jMenu1.add(jMenuItem8);
-        jMenu1.add(jSeparator4);
+        printJMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        printJMenuItem.setText("Print");
+        fileJMenu.add(printJMenuItem);
+        fileJMenu.add(jSeparator2);
 
-        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
-        jMenuItem9.setText("Enter Bottle Lable");
-        jMenu1.add(jMenuItem9);
+        runDetailsJMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        runDetailsJMenuItem.setText("Run Details");
+        fileJMenu.add(runDetailsJMenuItem);
 
-        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        jMenuItem10.setText("Enter Comments");
-        jMenu1.add(jMenuItem10);
+        calibrateJMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        calibrateJMenuItem.setText("Calibrate");
+        fileJMenu.add(calibrateJMenuItem);
+        fileJMenu.add(jSeparator3);
 
-        jMenuBar1.add(jMenu1);
-
-        jMenu3.setText("Settings");
-
-        jMenuItemGeneral.setText("General");
-        jMenuItemGeneral.addActionListener(new java.awt.event.ActionListener() {
+        exitJMenuItem.setText("Exit");
+        exitJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemGeneralActionPerformed(evt);
+                exitJMenuItemActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemGeneral);
+        fileJMenu.add(exitJMenuItem);
 
-        jMenuItem12.setText("Communications...");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+        salinometerJMenuBar.add(fileJMenu);
+
+        loggingJMenu.setText("Logging");
+
+        communicationsLogJMenuItem.setText("Communications Log");
+        loggingJMenu.add(communicationsLogJMenuItem);
+        loggingJMenu.add(jSeparator4);
+
+        enterBottleLabelJMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        enterBottleLabelJMenuItem.setText("Enter Bottle Lable");
+        loggingJMenu.add(enterBottleLabelJMenuItem);
+
+        enterCommentsJMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        enterCommentsJMenuItem.setText("Enter Comments");
+        loggingJMenu.add(enterCommentsJMenuItem);
+
+        salinometerJMenuBar.add(loggingJMenu);
+
+        settingsJMenu.setText("Settings");
+
+        generalJMenuItem.setText("General");
+        generalJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
+                generalJMenuItemActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem12);
+        settingsJMenu.add(generalJMenuItem);
 
-        jMenuItem13.setText("Columns...");
-        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+        communicationsJMenuItem.setText("Communications...");
+        communicationsJMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem13ActionPerformed(evt);
+                communicationsJMenuItemActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem13);
+        settingsJMenu.add(communicationsJMenuItem);
 
-        jMenuBar1.add(jMenu3);
+        columnsJMenuItem.setText("Columns...");
+        columnsJMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                columnsJMenuItemActionPerformed(evt);
+            }
+        });
+        settingsJMenu.add(columnsJMenuItem);
 
-        jMenu4.setText("Help");
+        salinometerJMenuBar.add(settingsJMenu);
 
-        jMenuItem14.setText("Technical Help");
-        jMenu4.add(jMenuItem14);
+        helpJMenu.setText("Help");
 
-        jMenuItem15.setText("License Agreement");
-        jMenu4.add(jMenuItem15);
+        technicalHelpJMenuItem.setText("Technical Help");
+        helpJMenu.add(technicalHelpJMenuItem);
 
-        jMenuItem16.setText("About...");
-        jMenu4.add(jMenuItem16);
+        licenseAgreementJMenuItem.setText("License Agreement");
+        helpJMenu.add(licenseAgreementJMenuItem);
 
-        jMenuBar1.add(jMenu4);
+        aboutJMenuItem.setText("About...");
+        helpJMenu.add(aboutJMenuItem);
 
-        setJMenuBar(jMenuBar1);
+        salinometerJMenuBar.add(helpJMenu);
+
+        setJMenuBar(salinometerJMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(mainJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(functionSwitchStatusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(autosalConnectJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(mainMenuJToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(mainJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(dateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(timeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(mainMenuJToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(functionSwitchStatusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(33, 33, 33))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(autosalConnectJButton)
+                                .addGap(30, 30, 30))))
+                    .addComponent(mainJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(mainJScrollPane)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dateJTextField)
+                    .addComponent(timeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -304,16 +518,16 @@ public class mainView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void NewJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewJMenuItemActionPerformed
         // TODO add your handling code here:
         SampleRun sr = new SampleRun();
         sr.pack();
         sr.setModal(true);
         sr.setLocationRelativeTo(this);
         sr.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_NewJMenuItemActionPerformed
 
-    private void jMenuItemGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGeneralActionPerformed
+    private void generalJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generalJMenuItemActionPerformed
         SettingsOptions so = new SettingsOptions();
         so.pack();
         so.setLocationRelativeTo(this);
@@ -322,9 +536,9 @@ public class mainView extends javax.swing.JFrame {
 
         
        
-    }//GEN-LAST:event_jMenuItemGeneralActionPerformed
+    }//GEN-LAST:event_generalJMenuItemActionPerformed
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+    private void communicationsJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_communicationsJMenuItemActionPerformed
 
         CommunicationsSettings cs = new CommunicationsSettings();
         cs.pack();
@@ -333,9 +547,9 @@ public class mainView extends javax.swing.JFrame {
         cs.setVisible(true);
         
         
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
+    }//GEN-LAST:event_communicationsJMenuItemActionPerformed
 
-    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+    private void columnsJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columnsJMenuItemActionPerformed
         // TODO add your handling code here:        
         SelectColumns sc = new SelectColumns();
         sc.pack();
@@ -344,12 +558,16 @@ public class mainView extends javax.swing.JFrame {
         sc.setVisible(true);
         
         
-    }//GEN-LAST:event_jMenuItem13ActionPerformed
+    }//GEN-LAST:event_columnsJMenuItemActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void exitJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitJMenuItemActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_exitJMenuItemActionPerformed
+
+    private void timeJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timeJTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -389,36 +607,54 @@ public class mainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem NewJMenuItem;
+    private javax.swing.JMenuItem OpenJMenuItem;
+    private javax.swing.JMenuItem aboutJMenuItem;
+    private javax.swing.JButton autosalConnectJButton;
+    private javax.swing.JButton autosalConnectJButtonWithIcon;
+    private javax.swing.JButton calibrateJButton;
+    private javax.swing.JMenuItem calibrateJMenuItem;
+    private javax.swing.JMenuItem closeJMenuItem;
+    private javax.swing.JMenuItem columnsJMenuItem;
+    private javax.swing.JMenuItem communicationsJMenuItem;
+    private javax.swing.JMenuItem communicationsLogJMenuItem;
+    private javax.swing.JTextField dateJTextField;
+    private javax.swing.JMenuItem enterBottleLabelJMenuItem;
+    private javax.swing.JMenuItem enterCommentsJMenuItem;
+    private javax.swing.JMenuItem exitJMenuItem;
+    private javax.swing.JMenu fileJMenu;
+    private javax.swing.JButton fileNewJButton;
+    private javax.swing.JButton fileOpenJButton;
+    private javax.swing.JTextField functionSwitchStatusJTextField;
+    private javax.swing.JMenuItem generalJMenuItem;
+    private javax.swing.JMenu helpJMenu;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JInternalFrame jInternalFrame1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
-    private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
-    private javax.swing.JMenuItem jMenuItemGeneral;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JToolBar.Separator jSeparator7;
+    private javax.swing.JToolBar.Separator jSeparator8;
+    private javax.swing.JToolBar.Separator jSeparator9;
+    private javax.swing.JMenuItem licenseAgreementJMenuItem;
+    private javax.swing.JMenu loggingJMenu;
+    private javax.swing.JPanel mainJPanel;
+    private javax.swing.JScrollPane mainJScrollPane;
+    private javax.swing.JTable mainJTable;
+    private javax.swing.JToolBar mainMenuJToolBar;
+    private javax.swing.JMenuItem printJMenuItem;
+    private javax.swing.JButton printPageJButton;
+    private javax.swing.JButton runDetailsJButton;
+    private javax.swing.JMenuItem runDetailsJMenuItem;
+    private javax.swing.JMenuBar salinometerJMenuBar;
+    private javax.swing.JMenu settingsJMenu;
+    private javax.swing.JMenuItem technicalHelpJMenuItem;
+    private javax.swing.JTextField timeJTextField;
     // End of variables declaration//GEN-END:variables
 
 
@@ -429,7 +665,7 @@ public class mainView extends javax.swing.JFrame {
 
     void init(){
    
-    tcm = jTable1.getColumnModel();
+    tcm = mainJTable.getColumnModel();
     bottleLabel = tcm.getColumn(1);
    
     //tcm.removeColumn(bottleLabel);

@@ -6,6 +6,7 @@
 package salinometer;
 
 import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
 import java.util.Enumeration;
 
 /**
@@ -17,6 +18,8 @@ public class CommunicationsSettings extends javax.swing.JDialog {
     /**
      * Creates new form CommunicationsSettings
      */
+    SerialPort port = null;
+    CommPortIdentifier portId = null;
     public CommunicationsSettings() {
         
         initComponents();
@@ -64,6 +67,11 @@ public class CommunicationsSettings extends javax.swing.JDialog {
         jLabel1.setText("Device:");
 
         jComboBoxSerialPortList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None" }));
+        jComboBoxSerialPortList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxSerialPortListActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Autosal 8400B" }));
 
@@ -146,6 +154,28 @@ public class CommunicationsSettings extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        
+                try {
+                    String wantedPort=jComboBoxSerialPortList.getSelectedItem().toString();
+            portId = CommPortIdentifier.getPortIdentifier(wantedPort);
+
+
+            if (portId.getName().equals(wantedPort)) {
+                System.out.println("Selected " + portId.getName());
+                //portId = pid;
+                port = (SerialPort) portId.open("Salinometer", 10000);
+                port.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+
+                //br = new BufferedReader(ist);
+            }// end if  
+            SalinometerSerialRead srr = new SalinometerSerialRead(port);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+
+        }
+        
         dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -153,6 +183,10 @@ public class CommunicationsSettings extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBoxSerialPortListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSerialPortListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxSerialPortListActionPerformed
 
     /**
      * @param args the command line arguments
