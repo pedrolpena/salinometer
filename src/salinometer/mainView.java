@@ -5,24 +5,43 @@
  */
 package salinometer;
 
-import java.awt.Image;
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
+//import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+//import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+//import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.prefs.Preferences;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+
 
 /**
  *
  * @author pena
  */
 public class mainView extends javax.swing.JFrame {
-    
-    
-    
-    
 
     /**
      * Creates new form mainView
      */
+    private Preferences prefs;
+    private dataSyncingSingleton syncData = dataSyncingSingleton.getInstance();
+    private SerialPort port;
+    private CommPortIdentifier portId = null;
+    private SalinometerSerialRead srr=null;
+    private File pWD;
+    private String OS = System.getProperty("os.name").toLowerCase();
+
     public mainView() {
         initComponents();
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/saltbottle.png"));
@@ -43,7 +62,7 @@ public class mainView extends javax.swing.JFrame {
         autosalConnectJButtonWithIcon = new javax.swing.JButton();
         mainJScrollPane = new javax.swing.JScrollPane();
         mainJTable = new javax.swing.JTable();
-        autosalConnectJButton = new javax.swing.JButton();
+        salinometerConnectJButton = new javax.swing.JButton();
         mainMenuJToolBar = new javax.swing.JToolBar();
         jSeparator10 = new javax.swing.JToolBar.Separator();
         fileNewJButton = new javax.swing.JButton();
@@ -56,10 +75,13 @@ public class mainView extends javax.swing.JFrame {
         jSeparator8 = new javax.swing.JToolBar.Separator();
         calibrateJButton = new javax.swing.JButton();
         jSeparator9 = new javax.swing.JToolBar.Separator();
+        csvExportJButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         functionSwitchStatusJTextField = new javax.swing.JTextField();
         timeJTextField = new javax.swing.JTextField();
         dateJTextField = new javax.swing.JTextField();
+        dataPathJTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         salinometerJMenuBar = new javax.swing.JMenuBar();
         fileJMenu = new javax.swing.JMenu();
         NewJMenuItem = new javax.swing.JMenuItem();
@@ -112,7 +134,6 @@ public class mainView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AOML Salinometer Data Logger");
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         mainJPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         mainJPanel.setMaximumSize(new java.awt.Dimension(80, 112));
@@ -121,6 +142,11 @@ public class mainView extends javax.swing.JFrame {
         autosalConnectJButtonWithIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometerConnectionNotConnected.png"))); // NOI18N
         autosalConnectJButtonWithIcon.setBorder(null);
         autosalConnectJButtonWithIcon.setBorderPainted(false);
+        autosalConnectJButtonWithIcon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autosalConnectJButtonWithIconActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainJPanelLayout = new javax.swing.GroupLayout(mainJPanel);
         mainJPanel.setLayout(mainJPanelLayout);
@@ -284,7 +310,12 @@ public class mainView extends javax.swing.JFrame {
             mainJTable.getColumnModel().getColumn(10).setPreferredWidth(150);
         }
 
-        autosalConnectJButton.setText("Connect");
+        salinometerConnectJButton.setText("Connect");
+        salinometerConnectJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salinometerConnectJButtonActionPerformed(evt);
+            }
+        });
 
         mainMenuJToolBar.setBorder(null);
         mainMenuJToolBar.setFloatable(false);
@@ -296,9 +327,12 @@ public class mainView extends javax.swing.JFrame {
         fileNewJButton.setBorder(null);
         fileNewJButton.setFocusable(false);
         fileNewJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        fileNewJButton.setMaximumSize(new java.awt.Dimension(32, 32));
-        fileNewJButton.setMinimumSize(new java.awt.Dimension(32, 32));
         fileNewJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        fileNewJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileNewJButtonActionPerformed(evt);
+            }
+        });
         mainMenuJToolBar.add(fileNewJButton);
         mainMenuJToolBar.add(jSeparator5);
 
@@ -306,8 +340,6 @@ public class mainView extends javax.swing.JFrame {
         fileOpenJButton.setBorder(null);
         fileOpenJButton.setFocusable(false);
         fileOpenJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        fileOpenJButton.setMaximumSize(new java.awt.Dimension(32, 32));
-        fileOpenJButton.setMinimumSize(new java.awt.Dimension(32, 32));
         fileOpenJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         mainMenuJToolBar.add(fileOpenJButton);
         mainMenuJToolBar.add(jSeparator6);
@@ -336,14 +368,27 @@ public class mainView extends javax.swing.JFrame {
         mainMenuJToolBar.add(calibrateJButton);
         mainMenuJToolBar.add(jSeparator9);
 
+        csvExportJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/text-csv.png"))); // NOI18N
+        csvExportJButton.setBorder(null);
+        csvExportJButton.setFocusable(false);
+        csvExportJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        csvExportJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mainMenuJToolBar.add(csvExportJButton);
+
         jLabel1.setText("Function Switch:");
 
         functionSwitchStatusJTextField.setEditable(false);
         functionSwitchStatusJTextField.setText("Not Connected");
         functionSwitchStatusJTextField.setBorder(null);
+        functionSwitchStatusJTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                functionSwitchStatusJTextFieldActionPerformed(evt);
+            }
+        });
 
         timeJTextField.setEditable(false);
-        timeJTextField.setText("13:55:00 AM");
+        timeJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        timeJTextField.setText("13:55:00");
         timeJTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         timeJTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,8 +397,20 @@ public class mainView extends javax.swing.JFrame {
         });
 
         dateJTextField.setEditable(false);
+        dateJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         dateJTextField.setText("05/17/2017");
         dateJTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        dataPathJTextField.setEditable(false);
+        dataPathJTextField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        dataPathJTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataPathJTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Data Path:");
+        jLabel2.setBorder(null);
 
         salinometerJMenuBar.setPreferredSize(new java.awt.Dimension(185, 17));
 
@@ -373,6 +430,11 @@ public class mainView extends javax.swing.JFrame {
         fileJMenu.add(OpenJMenuItem);
 
         closeJMenuItem.setText("Close");
+        closeJMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeJMenuItemActionPerformed(evt);
+            }
+        });
         fileJMenu.add(closeJMenuItem);
         fileJMenu.add(jSeparator1);
 
@@ -466,25 +528,30 @@ public class mainView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(mainJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(functionSwitchStatusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(autosalConnectJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                                .addComponent(salinometerConnectJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(mainMenuJToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(mainJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(dateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(timeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dataPathJTextField)
+                                .addGap(24, 24, 24)
+                                .addComponent(dateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(timeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6))
+                            .addComponent(mainJScrollPane))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -494,25 +561,27 @@ public class mainView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(mainMenuJToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(functionSwitchStatusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(33, 33, 33))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(autosalConnectJButton)
-                                .addGap(30, 30, 30))))
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(functionSwitchStatusJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salinometerConnectJButton)))
                     .addComponent(mainJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(mainJScrollPane)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dateJTextField)
-                    .addComponent(timeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(mainJScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(dataPathJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(timeJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {dataPathJTextField, dateJTextField, jLabel2, timeJTextField});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {functionSwitchStatusJTextField, jLabel1, salinometerConnectJButton});
 
         pack();
         setLocationRelativeTo(null);
@@ -520,11 +589,8 @@ public class mainView extends javax.swing.JFrame {
 
     private void NewJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewJMenuItemActionPerformed
         // TODO add your handling code here:
-        SampleRun sr = new SampleRun();
-        sr.pack();
-        sr.setModal(true);
-        sr.setLocationRelativeTo(this);
-        sr.setVisible(true);
+        newRun();
+
     }//GEN-LAST:event_NewJMenuItemActionPerformed
 
     private void generalJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generalJMenuItemActionPerformed
@@ -534,8 +600,7 @@ public class mainView extends javax.swing.JFrame {
         so.setModal(true);
         so.setVisible(true);
 
-        
-       
+
     }//GEN-LAST:event_generalJMenuItemActionPerformed
 
     private void communicationsJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_communicationsJMenuItemActionPerformed
@@ -545,8 +610,8 @@ public class mainView extends javax.swing.JFrame {
         cs.setLocationRelativeTo(this);
         cs.setModal(true);
         cs.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_communicationsJMenuItemActionPerformed
 
     private void columnsJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columnsJMenuItemActionPerformed
@@ -556,8 +621,8 @@ public class mainView extends javax.swing.JFrame {
         sc.setLocationRelativeTo(this);
         sc.setModal(true);
         sc.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_columnsJMenuItemActionPerformed
 
     private void exitJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitJMenuItemActionPerformed
@@ -568,6 +633,52 @@ public class mainView extends javax.swing.JFrame {
     private void timeJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeJTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_timeJTextFieldActionPerformed
+
+    private void fileNewJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNewJButtonActionPerformed
+        // TODO add your handling code here:
+        newRun();
+
+  
+    }//GEN-LAST:event_fileNewJButtonActionPerformed
+
+    private void autosalConnectJButtonWithIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autosalConnectJButtonWithIconActionPerformed
+        // TODO add your handling code here:
+        if (syncData.isSerialPortOpen()) {
+            disconnectSerialPort();
+            
+        } else {
+
+            connectSerialPort();
+           
+        }
+    }//GEN-LAST:event_autosalConnectJButtonWithIconActionPerformed
+
+    private void salinometerConnectJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salinometerConnectJButtonActionPerformed
+        // TODO add your handling code here:
+        if (syncData.isSerialPortOpen()) {
+            disconnectSerialPort();
+            
+        } else {
+
+            connectSerialPort();
+       
+        }
+
+    }//GEN-LAST:event_salinometerConnectJButtonActionPerformed
+
+    private void closeJMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeJMenuItemActionPerformed
+        // TODO add your handling code here:
+        this.disconnectSerialPort();
+        syncData.setRunCreated(false);
+    }//GEN-LAST:event_closeJMenuItemActionPerformed
+
+    private void dataPathJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPathJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dataPathJTextFieldActionPerformed
+
+    private void functionSwitchStatusJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_functionSwitchStatusJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_functionSwitchStatusJTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -601,7 +712,7 @@ public class mainView extends javax.swing.JFrame {
             public void run() {
                 //mainView mv = new mainView();
                 //mv.init();
-               // mv.setVisible(true);
+                // mv.setVisible(true);
             }
         });
     }
@@ -610,7 +721,6 @@ public class mainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem NewJMenuItem;
     private javax.swing.JMenuItem OpenJMenuItem;
     private javax.swing.JMenuItem aboutJMenuItem;
-    private javax.swing.JButton autosalConnectJButton;
     private javax.swing.JButton autosalConnectJButtonWithIcon;
     private javax.swing.JButton calibrateJButton;
     private javax.swing.JMenuItem calibrateJMenuItem;
@@ -618,6 +728,8 @@ public class mainView extends javax.swing.JFrame {
     private javax.swing.JMenuItem columnsJMenuItem;
     private javax.swing.JMenuItem communicationsJMenuItem;
     private javax.swing.JMenuItem communicationsLogJMenuItem;
+    private javax.swing.JButton csvExportJButton;
+    private javax.swing.JTextField dataPathJTextField;
     private javax.swing.JTextField dateJTextField;
     private javax.swing.JMenuItem enterBottleLabelJMenuItem;
     private javax.swing.JMenuItem enterCommentsJMenuItem;
@@ -631,6 +743,7 @@ public class mainView extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -651,28 +764,379 @@ public class mainView extends javax.swing.JFrame {
     private javax.swing.JButton printPageJButton;
     private javax.swing.JButton runDetailsJButton;
     private javax.swing.JMenuItem runDetailsJMenuItem;
+    private javax.swing.JButton salinometerConnectJButton;
     private javax.swing.JMenuBar salinometerJMenuBar;
     private javax.swing.JMenu settingsJMenu;
     private javax.swing.JMenuItem technicalHelpJMenuItem;
     private javax.swing.JTextField timeJTextField;
     // End of variables declaration//GEN-END:variables
 
-
     //declare variables here
     private TableColumnModel tcm;
     private TableColumn bottleLabel;
+
+    private void newRun() {
+        
+        boolean cancel = false;
+        boolean retry = false;
+        SalinometerNotDetected snd;
+        connectSerialPort();
+
+        if (!syncData.isSalinometerConnected()) {
+            do {
+                snd = new SalinometerNotDetected(this, true);
+                snd.pack();
+                snd.setModal(true);
+                snd.setLocationRelativeTo(this);
+                snd.setVisible(true);
+
+                cancel = snd.getCancel();
+                retry = snd.getRetry();
+
+                if (retry) {
+                    connectSerialPort();
+                    retry = false;
+                }//end if
+
+            } while (!cancel && !syncData.isSalinometerConnected());
+
+        }
+
+        if (syncData.isSalinometerConnected()) {
+
+            SampleRun sr = new SampleRun();
+            sr.pack();
+            sr.setModal(true);
+            sr.setLocationRelativeTo(this);
+            sr.setVisible(true);
+            enableItems();
+
+        }//end if
+        else{
+        disconnectSerialPort();
+        
+        }//end else
+    }//end newRun;
+
+    
+    private void connectSerialPort() {
+        try {
+            if (srr == null) {
+                portId = CommPortIdentifier.getPortIdentifier(prefs.get("serialPortName", "COM1"));
+                port = (SerialPort) portId.open("Salinometer", 10000);
+                port.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+                port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+                
+                srr = new SalinometerSerialRead(port);
+                salinometerConnectJButton.setText("Disconnect");
+                syncData.setSerialPortOpen(true);
+                //enableItems();
+                Thread.sleep(1000);
+            }
+        }//end try
+        catch (Exception e) {
+            e.printStackTrace();
+            salinometerConnectJButton.setText("Connect");
+            srr=null;
+            disableItems();
+
+        }//end catch
+
+    }//end connectSerialPort
+    
+    
+    private void disconnectSerialPort(){ 
+        if (srr != null) {
+            srr.close();
+            srr = null;}//end f
+            syncData.setSalinometerConnected(false);
+            syncData.setSerialPortOpen(false);
+            salinometerConnectJButton.setText("Connect");
+            disableItems();
+        
+    
+    
+    
+    }//end disconnectSerialPort
     
 
-    void init(){
-   
-    tcm = mainJTable.getColumnModel();
-    bottleLabel = tcm.getColumn(1);
-   
-    //tcm.removeColumn(bottleLabel);
+    private void disableItems() {
+        calibrateJButton.setEnabled(false);
+        calibrateJMenuItem.setEnabled(false);
+        closeJMenuItem.setEnabled(false);
+        printJMenuItem.setEnabled(false);
+        printPageJButton.setEnabled(false);
+        runDetailsJButton.setEnabled(false);
+        runDetailsJMenuItem.setEnabled(false);
+        communicationsLogJMenuItem.setEnabled(false);
+        enterBottleLabelJMenuItem.setEnabled(false);
+        enterCommentsJMenuItem.setEnabled(false);
+        csvExportJButton.setEnabled(false);
+        communicationsJMenuItem.setEnabled(true);
+        generalJMenuItem.setEnabled(true);
+        mainJTable.getParent().setEnabled(false);
+        mainJTable.getParent().setVisible(false);
+        mainJTable.setEnabled(false);
+        mainJTable.setVisible(false);
+    }//end method
+    
+ 
+    private void enableItems() {
+        calibrateJButton.setEnabled(true);
+        calibrateJMenuItem.setEnabled(true);
+        closeJMenuItem.setEnabled(true);
+        printJMenuItem.setEnabled(true);
+        printPageJButton.setEnabled(true);
+        runDetailsJButton.setEnabled(true);
+        runDetailsJMenuItem.setEnabled(true);
+        communicationsLogJMenuItem.setEnabled(true);
+        enterBottleLabelJMenuItem.setEnabled(true);
+        enterCommentsJMenuItem.setEnabled(true);
+        csvExportJButton.setEnabled(true);
+        communicationsJMenuItem.setEnabled(false);
+        generalJMenuItem.setEnabled(false);
+        mainJTable.getParent().setEnabled(true);
+        mainJTable.getParent().setVisible(true);       
+        mainJTable.setEnabled(true);
+        mainJTable.setVisible(true);
 
+    }//end method   
     
-    
+
+    void init() {
+        prefs = Preferences.userNodeForPackage(getClass());
+        String defaultPWD=System.getProperty("user.home") + File.separatorChar + "data" + File.separatorChar + "salinometer";
+        
+                if (OS.indexOf("win") >= 0) {
+            defaultPWD = System.getProperty("user.home")+File.separatorChar  + "Documents"+File.separatorChar + "data" + File.separatorChar + "salinometer";
+        }//end if
+        
+        
+
+
+        try{
+        pWD = new File(defaultPWD);
+        pWD.mkdirs();
+        }
+        catch(Exception e){
+        
+        pWD.mkdirs();
+        pWD = new File(System.getProperty(defaultPWD));
+        }
+        this.dataPathJTextField.setText(pWD.getPath());
+
+        syncData.setSalinometerConnected(false);
+        tcm = mainJTable.getColumnModel();
+        bottleLabel = tcm.getColumn(1);
+        disableItems();
+        try {
+            MrUpdate updater = new MrUpdate(dateJTextField, timeJTextField, autosalConnectJButtonWithIcon,functionSwitchStatusJTextField);
+
+        }//end try
+        catch (Exception e) {
+            e.printStackTrace();
+        }//end catch
+
+        //tcm.removeColumn(bottleLabel);
+        
+        ProgressBarMessageDialog pbmd = new ProgressBarMessageDialog("The title goes here","This is where messages to this dialog are placed");
+        //pbmd.setVisible(true);
+        pbmd.setVisible(true);
+        pbmd.setProgressBarMin(1);
+        pbmd.setProgressBarMax(10);
+        pbmd.setProgressBarValue(5);
+        pbmd.setProgressBarValue(6);
+        pbmd.setProgressBarValue(7);
+        pbmd.setProgressBarValue(8);
+        pbmd.setProgressBarValue(9);
+        pbmd.setProgressBarValue(10);
+        
+        
+
+        
     }//end init()
 
+    public class MrUpdate implements Runnable {
+
+        Thread thisThread;
+        JTextField dateUTCJTextField;
+        JTextField timeUTCJTextField;
+        JTextField functionSwitchStatus;
+        JButton connectionIconJButton;
+        Icon notConnected;
+        Icon connected1;
+        Icon connected2;
+        Icon connected3;
+        Icon connected4;
+        Icon connected5;
+        Icon connected6;
+        Icon connected7;
+        Icon connected8;
+        String dateUTC;
+        String timeUTC;
+        String functionSwitchStatusMsg;
+        int iconCounter;
+        DateFormat dateFormat;
+        DateFormat timeFormat;
+
+        public MrUpdate(JTextField theDate, JTextField theTime, JButton icon ,JTextField status) {
+
+            dateUTCJTextField = theDate;
+            timeUTCJTextField = theTime;
+            connectionIconJButton = icon;
+            functionSwitchStatus = status;
+            connected1 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected1.png"));
+            connected2 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected2.png"));
+            connected3 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected3.png"));
+            connected4 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected4.png"));
+            connected5 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected5.png"));
+            connected6 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected6.png"));
+            connected7 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected7.png"));
+            connected8 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected8.png"));
+            notConnected = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnectionNotConnected.png"));
+            iconCounter = 0;
+            dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            timeFormat = new SimpleDateFormat("HH:mm:ss");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            thisThread = new Thread(this, "Mr Update");
+            thisThread.start();
+            
+
+        }//end constrcutor
+
+        @Override
+        public void run() {
+            ZonedDateTime utc;
+            boolean connectedToSalinometer = false;
+            long currentSystemTime = System.currentTimeMillis();
+            long previousSystemTime = System.currentTimeMillis();
+            long previousConnectionIconTime = System.currentTimeMillis();
+
+            while (true) {
+                currentSystemTime = System.currentTimeMillis();
+                connectedToSalinometer = syncData.isSalinometerConnected();
+                try {
+                    Thread.sleep(50);
+
+                    //updating date and time here
+                    if (currentSystemTime - previousSystemTime >= 250) {
+//                        utc = ZonedDateTime.now(ZoneOffset.UTC);
+//                        timeUTC = utc.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+//                        dateUTC = utc.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        timeUTC = timeFormat.format(new Date());
+                        dateUTC = dateFormat.format(new Date());
+                        dateUTCJTextField.setText(dateUTC);
+                        timeUTCJTextField.setText(timeUTC);
+                        functionSwitchStatusMsg=syncData.getFunctionStatus();
+                        if(!syncData.isSalinometerConnected()){
+                            functionSwitchStatusMsg="No Connection";
+                        }//end if
+                        functionSwitchStatus.setText(functionSwitchStatusMsg);
+
+                        previousSystemTime = System.currentTimeMillis();
+
+                    }//end if
+
+                    //updating connection icon
+                    if (connectedToSalinometer && (currentSystemTime - previousConnectionIconTime > 500)) {
+
+                        switch (iconCounter) {
+                            case 0:
+                                connectionIconJButton.setIcon(connected1);
+                                iconCounter = 1;
+                                break;
+
+                            case 1:
+                                connectionIconJButton.setIcon(connected2);
+                                iconCounter = 2;
+                                break;
+                            case 2:
+                                connectionIconJButton.setIcon(connected3);
+                                iconCounter = 3;
+                                break;
+                            case 3:
+                                connectionIconJButton.setIcon(connected4);
+                                iconCounter = 4;
+                                break;
+                            case 4:
+                                connectionIconJButton.setIcon(connected5);
+                                iconCounter = 5;
+                                break;
+                            case 5:
+                                connectionIconJButton.setIcon(connected6);
+                                iconCounter = 6;
+                                break;
+                            case 6:
+                                connectionIconJButton.setIcon(connected7);
+                                iconCounter = 7;
+                                break;
+                            case 7:
+                                connectionIconJButton.setIcon(connected8);
+                                iconCounter = 8;
+                                break;
+
+                            case 8:
+                                connectionIconJButton.setIcon(connected7);
+                                iconCounter = 9;
+                                break;
+                            case 9:
+                                connectionIconJButton.setIcon(connected6);
+                                iconCounter = 10;
+                                break;
+                            case 10:
+                                connectionIconJButton.setIcon(connected5);
+                                iconCounter = 11;
+                                break;
+                            case 11:
+                                connectionIconJButton.setIcon(connected4);
+                                iconCounter = 12;
+                                break;
+                            case 12:
+                                connectionIconJButton.setIcon(connected3);
+                                iconCounter = 13;
+                                break;
+                            case 13:
+                                connectionIconJButton.setIcon(connected2);
+                                iconCounter = 0;
+                                break;
+
+                        }//end switch
+                        
+                        
+
+                        previousConnectionIconTime = System.currentTimeMillis();
+
+                    }//end if
+
+                    if (!connectedToSalinometer) {
+                        connectionIconJButton.setIcon(notConnected);
+                        iconCounter = 0;
+
+                    }//end else
+
+                }//end try
+                catch (Exception e) {
+                    e.printStackTrace();
+                }//end catch
+            }
+        }//end while
+
+        void updateDate(JTextField date) {
+            dateUTCJTextField = date;
+
+        }//end method        
+
+        void updateTime(JTextField time) {
+            timeUTCJTextField = time;
+
+        }//end method
+
+        void updateConnectionIcon(JButton connectionButton) {
+            connectionIconJButton = connectionButton;
+
+        }//end method
+
+    }//end mrUpdate 
 
 }

@@ -8,6 +8,7 @@ package salinometer;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import java.util.Enumeration;
+import java.util.prefs.Preferences;
 
 /**
  *
@@ -18,23 +19,36 @@ public class CommunicationsSettings extends javax.swing.JDialog {
     /**
      * Creates new form CommunicationsSettings
      */
-    SerialPort port = null;
-    CommPortIdentifier portId = null;
+    private Preferences prefs;
+    private SerialPort port = null;
+    private CommPortIdentifier portId = null;
+    private String serialPortName = "";
+    private String OS = System.getProperty("os.name").toLowerCase();
+
     public CommunicationsSettings() {
-        
+
         initComponents();
-        
+        String sp = "/dev/ttyUSB3";
+        String spTmp="";
+        prefs = Preferences.userNodeForPackage(getClass());
+        if (OS.indexOf("win") >= 0) {
+            sp = "COM1";
+        }//end if
+        serialPortName = prefs.get("serialPortName", sp);
+
         CommPortIdentifier pid;
         Enumeration portIdentifiers = CommPortIdentifier.getPortIdentifiers();
         while (portIdentifiers.hasMoreElements()) {
             //Thread.sleep(100);
-            pid = (CommPortIdentifier) portIdentifiers.nextElement();
-            jComboBoxSerialPortList.addItem(new String(pid.getName()));
             
+            pid = (CommPortIdentifier) portIdentifiers.nextElement();
+            spTmp=new String(pid.getName());
+            if (!spTmp.toLowerCase().contains("lpt")) {
+                SerialPortListJComboBox.addItem(spTmp);
+            }
+            SerialPortListJComboBox.setSelectedItem(serialPortName);
 
         }// end while
-        
-        
 
     }
 
@@ -50,10 +64,10 @@ public class CommunicationsSettings extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBoxSerialPortList = new javax.swing.JComboBox();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        SerialPortListJComboBox = new javax.swing.JComboBox();
+        deviceTypeJComboBox = new javax.swing.JComboBox();
+        OKJButton = new javax.swing.JButton();
+        cancelJButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Serial Communications Settings");
@@ -66,26 +80,26 @@ public class CommunicationsSettings extends javax.swing.JDialog {
 
         jLabel1.setText("Device:");
 
-        jComboBoxSerialPortList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None" }));
-        jComboBoxSerialPortList.addActionListener(new java.awt.event.ActionListener() {
+        SerialPortListJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None" }));
+        SerialPortListJComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxSerialPortListActionPerformed(evt);
+                SerialPortListJComboBoxActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Autosal 8400B" }));
+        deviceTypeJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Autosal 8400B" }));
 
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        OKJButton.setText("OK");
+        OKJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                OKJButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        cancelJButton.setText("Cancel");
+        cancelJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                cancelJButtonActionPerformed(evt);
             }
         });
 
@@ -102,13 +116,13 @@ public class CommunicationsSettings extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxSerialPortList, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(deviceTypeJComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(SerialPortListJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(OKJButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cancelJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -116,19 +130,19 @@ public class CommunicationsSettings extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deviceTypeJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addComponent(jComboBoxSerialPortList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(SerialPortListJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(OKJButton)
+                    .addComponent(cancelJButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -152,41 +166,42 @@ public class CommunicationsSettings extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void OKJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKJButtonActionPerformed
 
-        
-                try {
-                    String wantedPort=jComboBoxSerialPortList.getSelectedItem().toString();
+        try {
+            String wantedPort = SerialPortListJComboBox.getSelectedItem().toString();
             portId = CommPortIdentifier.getPortIdentifier(wantedPort);
 
-
             if (portId.getName().equals(wantedPort)) {
-                System.out.println("Selected " + portId.getName());
+                serialPortName = portId.getName();
+                System.out.println("Selected " + serialPortName);
                 //portId = pid;
-                port = (SerialPort) portId.open("Salinometer", 10000);
-                port.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+                //port = (SerialPort) portId.open("Salinometer", 10000);
+                //port.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
                 //br = new BufferedReader(ist);
-            }// end if  
-            SalinometerSerialRead srr = new SalinometerSerialRead(port);
+            }// end if 
+
+            prefs.put("serialPortName", serialPortName);
+            prefs.flush();
+            //SalinometerSerialRead srr = new SalinometerSerialRead(port);
 
         } catch (Exception e) {
             e.printStackTrace();
 
-
         }
-        
-        dispose();// TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_OKJButtonActionPerformed
+
+    private void cancelJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelJButtonActionPerformed
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_cancelJButtonActionPerformed
 
-    private void jComboBoxSerialPortListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSerialPortListActionPerformed
+    private void SerialPortListJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SerialPortListJComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxSerialPortListActionPerformed
+    }//GEN-LAST:event_SerialPortListJComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,10 +239,10 @@ public class CommunicationsSettings extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBoxSerialPortList;
+    private javax.swing.JButton OKJButton;
+    private javax.swing.JComboBox SerialPortListJComboBox;
+    private javax.swing.JButton cancelJButton;
+    private javax.swing.JComboBox deviceTypeJComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
