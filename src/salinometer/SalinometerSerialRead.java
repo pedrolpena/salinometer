@@ -89,6 +89,25 @@ public class SalinometerSerialRead implements Runnable {
         Matcher autosalNoConnectionMatcher;
         long currentTime = System.currentTimeMillis();
         long previousTime = System.currentTimeMillis();
+        
+        
+        
+                ProgressBarJDialog pbj = new ProgressBarJDialog(null, true);
+        pbj.setMinimumValue(1);
+        pbj.setMaximumValue(20);
+        pbj.setDialogTitle("Test Title");
+        pbj.setMessage("We got this freaking robot here, there he is.");
+        pbj.startProgressBar();
+        pbj.setVisible(true);
+        try{
+        for (int i =1; i<=20 ;i++ ){
+            
+            syncData.tester = i;
+            //Thread.sleep(500);
+        }//end for
+        }
+        catch(Exception e){
+        e.printStackTrace();}
 
         while (serialPortFound && isAlive) {
             currentTime = System.currentTimeMillis();

@@ -20,6 +20,7 @@ import java.util.TimeZone;
 import java.util.prefs.Preferences;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -41,6 +42,7 @@ public class mainView extends javax.swing.JFrame {
     private SalinometerSerialRead srr=null;
     private File pWD;
     private String OS = System.getProperty("os.name").toLowerCase();
+    private JProgressBar progressBar;
 
     public mainView() {
         initComponents();
@@ -643,9 +645,12 @@ public class mainView extends javax.swing.JFrame {
 
     private void autosalConnectJButtonWithIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autosalConnectJButtonWithIconActionPerformed
         // TODO add your handling code here:
+
+        
+        
         if (syncData.isSerialPortOpen()) {
             disconnectSerialPort();
-            
+
         } else {
 
             connectSerialPort();
@@ -939,21 +944,11 @@ public class mainView extends javax.swing.JFrame {
 
         //tcm.removeColumn(bottleLabel);
         
-        ProgressBarMessageDialog pbmd = new ProgressBarMessageDialog("The title goes here","This is where messages to this dialog are placed");
-        //pbmd.setVisible(true);
-        pbmd.setVisible(true);
-        pbmd.setProgressBarMin(1);
-        pbmd.setProgressBarMax(10);
-        pbmd.setProgressBarValue(5);
-        pbmd.setProgressBarValue(6);
-        pbmd.setProgressBarValue(7);
-        pbmd.setProgressBarValue(8);
-        pbmd.setProgressBarValue(9);
-        pbmd.setProgressBarValue(10);
-        
-        
 
-        
+
+
+
+
     }//end init()
 
     public class MrUpdate implements Runnable {

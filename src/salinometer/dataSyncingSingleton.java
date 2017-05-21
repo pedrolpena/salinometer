@@ -21,6 +21,7 @@ public class dataSyncingSingleton {
     private String cruiseNumber;
     private String analyst;
     private double labTemp;
+    int tester;
 
     private dataSyncingSingleton() {
     }
