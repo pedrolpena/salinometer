@@ -14,6 +14,7 @@ public class dataSyncingSingleton {
     private boolean serialPortOpen = false;
     private boolean isSalinometerConnected = false;
     private boolean isRunCreated = false;
+    private boolean tookReading = false;
     private String functionStatus = "No Connection";
     private String runID;
     private String fileName;
@@ -99,6 +100,9 @@ public class dataSyncingSingleton {
 
         return labTemp;
     }
+    boolean getTookReading() {
+        return tookReading;
+    }//end method
 
     void setRunID(String s) {
 
@@ -128,6 +132,10 @@ public class dataSyncingSingleton {
     void setLabTemp(double d) {
 
         labTemp = d;
+    }
+    void setStartReading(boolean b){
+        tookReading = b;
+    
     }
 
 }

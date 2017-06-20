@@ -9,12 +9,12 @@ package salinometer;
  *
  * @author user
  */
-public class ProgressBarJDialog extends javax.swing.JDialog implements Runnable {
+public class ProgressBarJDialog extends javax.swing.JDialog /*implements Runnable*/ {
 
     /**
      * Creates new form ProgressBarJDialog
      */
-    Thread thisThread;
+    //Thread thisThread;
     int maxVal;
     int minVal;
     int currentVal;
@@ -42,7 +42,7 @@ public class ProgressBarJDialog extends javax.swing.JDialog implements Runnable 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jProgressBar = new javax.swing.JProgressBar();
+        readingProgressBar = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea = new javax.swing.JTextArea();
         cancelJButton = new javax.swing.JButton();
@@ -77,7 +77,7 @@ public class ProgressBarJDialog extends javax.swing.JDialog implements Runnable 
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(readingProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(227, Short.MAX_VALUE)
@@ -90,7 +90,7 @@ public class ProgressBarJDialog extends javax.swing.JDialog implements Runnable 
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(readingProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelJButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -110,23 +110,23 @@ public class ProgressBarJDialog extends javax.swing.JDialog implements Runnable 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelJButton;
-    private javax.swing.JProgressBar jProgressBar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea;
+    private javax.swing.JProgressBar readingProgressBar;
     // End of variables declaration//GEN-END:variables
 
-    @Override
+ /*   @Override
     public void run() {
 dataSyncingSingleton dataSync = dataSyncingSingleton.getInstance();
 
         try {
-            while (dataSync.tester < maxVal) {
-                jProgressBar.setValue(dataSync.tester);
-                jProgressBar.repaint();
+            while (currentVal <= maxVal) {
+//                readingProgressBar.setCurrentValue(currentVal);
+                readingProgressBar.repaint();
                 //jProgressBar.setVisible(true);
-                System.out.println("currentVal="+dataSync.tester);
+               System.out.println("currentVal="+currentVal);
                 
-                thisThread.sleep(500);
+                //thisThread.sleep(500);
            
 
             }//end for
@@ -135,27 +135,31 @@ dataSyncingSingleton dataSync = dataSyncingSingleton.getInstance();
             e.printStackTrace();
         }
 
-    }
+    }*/
     
     public void setMinimumValue(int val) {
         minVal=val;
-        jProgressBar.setMinimum(minVal);
+        readingProgressBar.setMinimum(minVal);
 
     }
 
     public void setMaximumValue(int val) {
         maxVal=val;
-        jProgressBar.setMaximum(maxVal);
+        readingProgressBar.setMaximum(maxVal);
     }
 
-    public void setValue(int val) {
+    public void setCurrentValue(int val) {
         currentVal = val;
-       // jProgressBar.setValue(currentVal);
+        readingProgressBar.setValue(currentVal);
+        //System.out.println("currentVal="+currentVal);
+        //readingProgressBar.repaint();
+        
+       // readingProgressBar.setCurrentValue(currentVal);
     }
 
     public void startProgressBar() {
-        thisThread = new Thread(this, "Progress Bar");
-        thisThread.start();
+        //hisThread = new Thread(this, "Progress Bar");
+        //thisThread.start();
 
     }
     

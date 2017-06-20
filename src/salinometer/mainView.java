@@ -22,9 +22,9 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-
 
 /**
  *
@@ -39,7 +39,7 @@ public class mainView extends javax.swing.JFrame {
     private dataSyncingSingleton syncData = dataSyncingSingleton.getInstance();
     private SerialPort port;
     private CommPortIdentifier portId = null;
-    private SalinometerSerialRead srr=null;
+    private SalinometerSerialRead srr = null;
     private File pWD;
     private String OS = System.getProperty("os.name").toLowerCase();
     private JProgressBar progressBar;
@@ -640,21 +640,19 @@ public class mainView extends javax.swing.JFrame {
         // TODO add your handling code here:
         newRun();
 
-  
+
     }//GEN-LAST:event_fileNewJButtonActionPerformed
 
     private void autosalConnectJButtonWithIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autosalConnectJButtonWithIconActionPerformed
         // TODO add your handling code here:
 
-        
-        
         if (syncData.isSerialPortOpen()) {
             disconnectSerialPort();
 
         } else {
 
             connectSerialPort();
-           
+
         }
     }//GEN-LAST:event_autosalConnectJButtonWithIconActionPerformed
 
@@ -662,11 +660,11 @@ public class mainView extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (syncData.isSerialPortOpen()) {
             disconnectSerialPort();
-            
+
         } else {
 
             connectSerialPort();
-       
+
         }
 
     }//GEN-LAST:event_salinometerConnectJButtonActionPerformed
@@ -781,7 +779,7 @@ public class mainView extends javax.swing.JFrame {
     private TableColumn bottleLabel;
 
     private void newRun() {
-        
+
         boolean cancel = false;
         boolean retry = false;
         SalinometerNotDetected snd;
@@ -815,15 +813,15 @@ public class mainView extends javax.swing.JFrame {
             sr.setLocationRelativeTo(this);
             sr.setVisible(true);
             enableItems();
+           
 
         }//end if
-        else{
-        disconnectSerialPort();
-        
+        else {
+            disconnectSerialPort();
+
         }//end else
     }//end newRun;
 
-    
     private void connectSerialPort() {
         try {
             if (srr == null) {
@@ -831,7 +829,7 @@ public class mainView extends javax.swing.JFrame {
                 port = (SerialPort) portId.open("Salinometer", 10000);
                 port.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
                 port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-                
+
                 srr = new SalinometerSerialRead(port);
                 salinometerConnectJButton.setText("Disconnect");
                 syncData.setSerialPortOpen(true);
@@ -842,28 +840,24 @@ public class mainView extends javax.swing.JFrame {
         catch (Exception e) {
             e.printStackTrace();
             salinometerConnectJButton.setText("Connect");
-            srr=null;
+            srr = null;
             disableItems();
 
         }//end catch
 
     }//end connectSerialPort
-    
-    
-    private void disconnectSerialPort(){ 
+
+    private void disconnectSerialPort() {
         if (srr != null) {
             srr.close();
-            srr = null;}//end f
-            syncData.setSalinometerConnected(false);
-            syncData.setSerialPortOpen(false);
-            salinometerConnectJButton.setText("Connect");
-            disableItems();
-        
-    
-    
-    
+            srr = null;
+        }//end f
+        syncData.setSalinometerConnected(false);
+        syncData.setSerialPortOpen(false);
+        salinometerConnectJButton.setText("Connect");
+        disableItems();
+
     }//end disconnectSerialPort
-    
 
     private void disableItems() {
         calibrateJButton.setEnabled(false);
@@ -884,8 +878,7 @@ public class mainView extends javax.swing.JFrame {
         mainJTable.setEnabled(false);
         mainJTable.setVisible(false);
     }//end method
-    
- 
+
     private void enableItems() {
         calibrateJButton.setEnabled(true);
         calibrateJMenuItem.setEnabled(true);
@@ -901,32 +894,27 @@ public class mainView extends javax.swing.JFrame {
         communicationsJMenuItem.setEnabled(false);
         generalJMenuItem.setEnabled(false);
         mainJTable.getParent().setEnabled(true);
-        mainJTable.getParent().setVisible(true);       
+        mainJTable.getParent().setVisible(true);
         mainJTable.setEnabled(true);
         mainJTable.setVisible(true);
 
     }//end method   
-    
 
     void init() {
         prefs = Preferences.userNodeForPackage(getClass());
-        String defaultPWD=System.getProperty("user.home") + File.separatorChar + "data" + File.separatorChar + "salinometer";
-        
-                if (OS.indexOf("win") >= 0) {
-            defaultPWD = System.getProperty("user.home")+File.separatorChar  + "Documents"+File.separatorChar + "data" + File.separatorChar + "salinometer";
+        String defaultPWD = System.getProperty("user.home") + File.separatorChar + "data" + File.separatorChar + "salinometer";
+
+        if (OS.indexOf("win") >= 0) {
+            defaultPWD = System.getProperty("user.home") + File.separatorChar + "Documents" + File.separatorChar + "data" + File.separatorChar + "salinometer";
         }//end if
-        
-        
 
+        try {
+            pWD = new File(defaultPWD);
+            pWD.mkdirs();
+        } catch (Exception e) {
 
-        try{
-        pWD = new File(defaultPWD);
-        pWD.mkdirs();
-        }
-        catch(Exception e){
-        
-        pWD.mkdirs();
-        pWD = new File(System.getProperty(defaultPWD));
+            pWD.mkdirs();
+            pWD = new File(System.getProperty(defaultPWD));
         }
         this.dataPathJTextField.setText(pWD.getPath());
 
@@ -935,7 +923,7 @@ public class mainView extends javax.swing.JFrame {
         bottleLabel = tcm.getColumn(1);
         disableItems();
         try {
-            MrUpdate updater = new MrUpdate(dateJTextField, timeJTextField, autosalConnectJButtonWithIcon,functionSwitchStatusJTextField);
+            MrUpdate updater = new MrUpdate(dateJTextField, timeJTextField, autosalConnectJButtonWithIcon, functionSwitchStatusJTextField);
 
         }//end try
         catch (Exception e) {
@@ -943,13 +931,9 @@ public class mainView extends javax.swing.JFrame {
         }//end catch
 
         //tcm.removeColumn(bottleLabel);
-        
-
-
-
-
-
     }//end init()
+
+   
 
     public class MrUpdate implements Runnable {
 
@@ -974,7 +958,7 @@ public class mainView extends javax.swing.JFrame {
         DateFormat dateFormat;
         DateFormat timeFormat;
 
-        public MrUpdate(JTextField theDate, JTextField theTime, JButton icon ,JTextField status) {
+        public MrUpdate(JTextField theDate, JTextField theTime, JButton icon, JTextField status) {
 
             dateUTCJTextField = theDate;
             timeUTCJTextField = theTime;
@@ -996,7 +980,6 @@ public class mainView extends javax.swing.JFrame {
             timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             thisThread = new Thread(this, "Mr Update");
             thisThread.start();
-            
 
         }//end constrcutor
 
@@ -1023,9 +1006,9 @@ public class mainView extends javax.swing.JFrame {
                         dateUTC = dateFormat.format(new Date());
                         dateUTCJTextField.setText(dateUTC);
                         timeUTCJTextField.setText(timeUTC);
-                        functionSwitchStatusMsg=syncData.getFunctionStatus();
-                        if(!syncData.isSalinometerConnected()){
-                            functionSwitchStatusMsg="No Connection";
+                        functionSwitchStatusMsg = syncData.getFunctionStatus();
+                        if (!syncData.isSalinometerConnected()) {
+                            functionSwitchStatusMsg = "No Connection";
                         }//end if
                         functionSwitchStatus.setText(functionSwitchStatusMsg);
 
@@ -1097,8 +1080,6 @@ public class mainView extends javax.swing.JFrame {
                                 break;
 
                         }//end switch
-                        
-                        
 
                         previousConnectionIconTime = System.currentTimeMillis();
 

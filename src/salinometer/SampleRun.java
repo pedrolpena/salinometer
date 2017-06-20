@@ -7,6 +7,7 @@ package salinometer;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -370,6 +371,7 @@ public class SampleRun extends javax.swing.JDialog {
                 syncData.setAnalyst(getAnalyst());
                 syncData.setLabTemp(getLabTemp());
                 syncData.setRunCreated(true);
+                
             }
             dispose();
         }
@@ -488,5 +490,6 @@ public class SampleRun extends javax.swing.JDialog {
         labTemp = new Double("0.00"+labTempJTextField.getText()).doubleValue();
         return labTemp;
     }
+
 
 }
