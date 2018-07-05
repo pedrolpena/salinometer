@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: iestelemetry
-Source: https://github.com/pedrolpena/iestelemetry
+Upstream-Name: salinometer
+Source: https://github.com/pedrolpena/salinometer
 
 Files: *
 Copyright: Copyright 2015 Pedro Pena <pedro.pena@noaa.gov>
