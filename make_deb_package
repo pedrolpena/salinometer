@@ -1,0 +1,3 @@
+#!/bin/bash
+make deb DESTDIR=debian/salinometer
+debuild -us -uc -I

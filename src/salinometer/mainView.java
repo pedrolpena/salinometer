@@ -141,7 +141,7 @@ public class mainView extends javax.swing.JFrame {
         mainJPanel.setMaximumSize(new java.awt.Dimension(80, 112));
         mainJPanel.setMinimumSize(new java.awt.Dimension(25, 25));
 
-        autosalConnectJButtonWithIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometerConnectionNotConnected.png"))); // NOI18N
+        autosalConnectJButtonWithIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnectionNotConnected.png"))); // NOI18N
         autosalConnectJButtonWithIcon.setBorder(null);
         autosalConnectJButtonWithIcon.setBorderPainted(false);
         autosalConnectJButtonWithIcon.addActionListener(new java.awt.event.ActionListener() {
@@ -324,7 +324,7 @@ public class mainView extends javax.swing.JFrame {
         mainMenuJToolBar.setRollover(true);
         mainMenuJToolBar.add(jSeparator10);
 
-        fileNewJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filenew.png"))); // NOI18N
+        fileNewJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/filenew.png"))); // NOI18N
         fileNewJButton.setToolTipText("New Run");
         fileNewJButton.setBorder(null);
         fileNewJButton.setFocusable(false);
@@ -338,7 +338,7 @@ public class mainView extends javax.swing.JFrame {
         mainMenuJToolBar.add(fileNewJButton);
         mainMenuJToolBar.add(jSeparator5);
 
-        fileOpenJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fileopen.png"))); // NOI18N
+        fileOpenJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/fileopen.png"))); // NOI18N
         fileOpenJButton.setBorder(null);
         fileOpenJButton.setFocusable(false);
         fileOpenJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -346,7 +346,7 @@ public class mainView extends javax.swing.JFrame {
         mainMenuJToolBar.add(fileOpenJButton);
         mainMenuJToolBar.add(jSeparator6);
 
-        printPageJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fileprint.png"))); // NOI18N
+        printPageJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/fileprint.png"))); // NOI18N
         printPageJButton.setBorder(null);
         printPageJButton.setFocusable(false);
         printPageJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -354,7 +354,7 @@ public class mainView extends javax.swing.JFrame {
         mainMenuJToolBar.add(printPageJButton);
         mainMenuJToolBar.add(jSeparator7);
 
-        runDetailsJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/properties.png"))); // NOI18N
+        runDetailsJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/properties.png"))); // NOI18N
         runDetailsJButton.setBorder(null);
         runDetailsJButton.setFocusable(false);
         runDetailsJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -362,7 +362,7 @@ public class mainView extends javax.swing.JFrame {
         mainMenuJToolBar.add(runDetailsJButton);
         mainMenuJToolBar.add(jSeparator8);
 
-        calibrateJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flaskNobg.png"))); // NOI18N
+        calibrateJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/flaskNobg.png"))); // NOI18N
         calibrateJButton.setBorder(null);
         calibrateJButton.setFocusable(false);
         calibrateJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -370,11 +370,16 @@ public class mainView extends javax.swing.JFrame {
         mainMenuJToolBar.add(calibrateJButton);
         mainMenuJToolBar.add(jSeparator9);
 
-        csvExportJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/text-csv.png"))); // NOI18N
+        csvExportJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/text-csv.png"))); // NOI18N
         csvExportJButton.setBorder(null);
         csvExportJButton.setFocusable(false);
         csvExportJButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         csvExportJButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        csvExportJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                csvExportJButtonActionPerformed(evt);
+            }
+        });
         mainMenuJToolBar.add(csvExportJButton);
 
         jLabel1.setText("Function Switch:");
@@ -683,6 +688,10 @@ public class mainView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_functionSwitchStatusJTextFieldActionPerformed
 
+    private void csvExportJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvExportJButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_csvExportJButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -964,15 +973,15 @@ public class mainView extends javax.swing.JFrame {
             timeUTCJTextField = theTime;
             connectionIconJButton = icon;
             functionSwitchStatus = status;
-            connected1 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected1.png"));
-            connected2 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected2.png"));
-            connected3 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected3.png"));
-            connected4 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected4.png"));
-            connected5 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected5.png"));
-            connected6 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected6.png"));
-            connected7 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected7.png"));
-            connected8 = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnected8.png"));
-            notConnected = new javax.swing.ImageIcon(getClass().getResource("/salinometerConnectionNotConnected.png"));
+            connected1 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected1.png"));
+            connected2 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected2.png"));
+            connected3 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected3.png"));
+            connected4 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected4.png"));
+            connected5 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected5.png"));
+            connected6 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected6.png"));
+            connected7 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected7.png"));
+            connected8 = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnected8.png"));
+            notConnected = new javax.swing.ImageIcon(getClass().getResource("/salinometer/resources/salinometerConnectionNotConnected.png"));
             iconCounter = 0;
             dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             timeFormat = new SimpleDateFormat("HH:mm:ss");

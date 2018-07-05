@@ -340,7 +340,7 @@
         <Component class="javax.swing.JButton" name="autosalConnectJButtonWithIcon">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/salinometerConnectionNotConnected.png"/>
+              <Image iconType="3" name="/salinometer/resources/salinometerConnectionNotConnected.png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -472,7 +472,7 @@
         <Component class="javax.swing.JButton" name="fileNewJButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/filenew.png"/>
+              <Image iconType="3" name="/salinometer/resources/filenew.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="New Run"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -491,7 +491,7 @@
         <Component class="javax.swing.JButton" name="fileOpenJButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/fileopen.png"/>
+              <Image iconType="3" name="/salinometer/resources/fileopen.png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -506,7 +506,7 @@
         <Component class="javax.swing.JButton" name="printPageJButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/fileprint.png"/>
+              <Image iconType="3" name="/salinometer/resources/fileprint.png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -521,7 +521,7 @@
         <Component class="javax.swing.JButton" name="runDetailsJButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/properties.png"/>
+              <Image iconType="3" name="/salinometer/resources/properties.png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -536,7 +536,7 @@
         <Component class="javax.swing.JButton" name="calibrateJButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/flaskNobg.png"/>
+              <Image iconType="3" name="/salinometer/resources/flaskNobg.png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -551,7 +551,7 @@
         <Component class="javax.swing.JButton" name="csvExportJButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/text-csv.png"/>
+              <Image iconType="3" name="/salinometer/resources/text-csv.png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -560,6 +560,9 @@
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="csvExportJButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
