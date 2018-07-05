@@ -39,7 +39,7 @@ SOURCEFILES    = $(SOURCEDIR)/CommunicationsSettings.java \
 	             
 ##############Desktop file fields#######################################
 TITLE          = "AOML Salinometer Application"
-COMMENT        = "IES Telemetry Application"
+COMMENT        = "AOML Salinometer Application"
 CATEGORIES     = "Application;Science;Education"
 ##############control file##############################################
 # Source section
