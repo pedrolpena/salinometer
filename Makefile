@@ -73,6 +73,7 @@ copyres:
 	cp -R $(SOURCEDIR)/resources $(JPACKAGE)
 
 archive:
+	cp manifest_2.txt manifest.txt 
 	$(JAR) cfm $(FILENAME) manifest.txt $(JPACKAGE)/*.class 
 	$(JAR) vfu  $(FILENAME) $(JPACKAGE)/resources
 
@@ -107,6 +108,7 @@ install:
 	chmod +x $(STARTDIR)/$(JPACKAGE)
 	cp icon.png $(ICONDIR)
 	cp copyright $(ICONDIR)
+	cp share/doc/$(JPACKAGE)/* $(ICONDIR)
 	cp $(JPACKAGE).desktop $(DESKTOPDIR)
 	gzip -9 --no-name -c changelog > $(ICONDIR)/changelog.gz
 	gzip -9 --no-name -c $(JPACKAGE).7 > $(MANDIR)/$(JPACKAGE).7.gz
@@ -135,10 +137,7 @@ endif
 uninstall:
 	$(RM) $(STARTDIR)/$(JPACKAGE)
 	$(RM) $(PREFIX)/$(JPACKAGE)/$(FILENAME)
-	$(RM) $(ICONDIR)/icon.png
-	$(RM) $(ICONDIR)/copyright
-	$(RM) $(ICONDIR)/changelog.gz
-	$(RM) $(MANDIR)/$(JPACKAGE).7.gz
+	$(RM) $(ICONDIR)/*
 	rmdir $(ICONDIR)
 	rmdir $(PREFIX)/$(JPACKAGE)
 	
@@ -147,7 +146,7 @@ deb:
 	mkdir -p $(DESTDIR)/usr/bin
 	mkdir -p $(DESTDIR)/usr/share/applications
 	mkdir -p $(DESTDIR)/DEBIAN
-	
+	mkdir -p $(DESTDIR_B4)/source
 	
 	echo "Source: "$(SOURCE) > $(DESTDIR_B4)/control
 	echo "Section: "$(SECTION) >> $(DESTDIR_B4)/control
@@ -173,6 +172,9 @@ deb:
 	echo "	dh_builddeb"  >> $(DESTDIR_B4)/rules
 	chmod +x $(DESTDIR_B4)/rules
 	
+	echo "1.0" > $(DESTDIR_B4)/source/format
+	
+	
 	echo "9" > $(DESTDIR_B4)/compat
 
 	
@@ -180,7 +182,6 @@ deb:
 	cp copyright $(DESTDIR_B4)/copyright
 	cp LICENSE $(DESTDIR_B4)/LICENSE
 	cp license.txt $(DESTDIR_B4)
-	cp $(DESTDIR_B4)/postinst $(DESTDIR)/DEBIAN
 
 	
 	
@@ -188,3 +189,4 @@ clean:
 	$(RM) -r ./$(JPACKAGE)
 	$(RM) -r ./dist
 	$(RM) $(JPACKAGE).desktop
+	$(RM) ./manifest.txt
