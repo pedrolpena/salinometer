@@ -1,6 +1,7 @@
 # salinometer
-A clone of the OSIL salinometer software written in java
-This does not fully work yet.
+A platform independent clone of the OSIL salinometer software written in java.
+So far it runs on Windows Linux and Mac.
+This does not fully work yet and still needs work.
 
 
 
